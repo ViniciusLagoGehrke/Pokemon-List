@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import Theme from './Theme'
 import Header from './components/Header'
+import SearchBar from './components/SearchBar'
 //import List from './components/List'
 
 import axios from 'axios'
@@ -45,6 +46,10 @@ const ListItem = styled.div`
     transform: scale(1.05);
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   }
+
+    img{
+      height: 100%;
+    }
 `
 
 const DetailedWrap = styled.article`
@@ -119,7 +124,9 @@ const Overlay = styled.div`
 `
 
 function App() {
+  const [input, setInput] = useState('');
   const [pokedex, setPokedex] = useState([]);
+  const [pokedexDefault, setPokedexDefault] = useState([]);
   const [detailedOpened, setDetailedOpened] = useState(false);
   const [detailedCard, setDetailedCard] = useState();
   
@@ -131,14 +138,23 @@ function App() {
       .then(response => {
       console.log(response)
       setPokedex(response.data.cards)
+      setPokedexDefault(response.data.cards)
     });
   }, [])
 
-  console.log(pokedex)
+  const updateInput = (input) => {
+    const filtered = pokedexDefault.filter(card => {
+      return card.name.toLowerCase().includes(input.toLowerCase())
+    })
+    setInput(input);
+    setPokedex(filtered);
+  }
 
   function OpenDetailedScreen(card){
-    setDetailedCard(card.id)
-    setDetailedOpened(true)
+    if(detailedCard == null){
+      setDetailedCard(card.id)
+      setDetailedOpened(true)
+    }
   }
 
   function CloseDetailedScreen(){
@@ -152,6 +168,10 @@ function App() {
         <GlobalStyle />
           <Header>
             <h1>Pokemon Trading Cards</h1>
+            <SearchBar
+              keyword={input}
+              setKeyword={updateInput}
+            />
           </Header>
           <ListWrapper>
             {pokedex.map((card, index) => {
@@ -159,6 +179,7 @@ function App() {
                 <>
                   <ListItem
                     key={card.id}
+                    pokemon={card.name}
                     onClick={() =>{OpenDetailedScreen(card)}}
                   >
                     <img src={card.imageUrl} alt={`${card.name} card`} />
@@ -168,7 +189,7 @@ function App() {
                     activeDetail={detailedCard}
                   >
                     <DetailedWrap.Header>
-                      <h3>{card.name}</h3>
+                      <h2>{card.name}</h2>
                       <button
                         onClick={() =>{CloseDetailedScreen()}}
                       >
@@ -176,7 +197,11 @@ function App() {
                       </button>
                     </DetailedWrap.Header>
                     <DetailedWrap.Content>
-                      <h6>{card.number}</h6>
+                      {Object.entries(card).map((key, value) => {
+                        return(
+                          <h3>{`${key}`}</h3>
+                        )
+                      })}
                     </DetailedWrap.Content>
                   </DetailedWrap>
                 </>
