@@ -1,4 +1,4 @@
-#Web application🛠
+# Web application🛠
 
 The web application is composed by a screen that shows the entire list of
 Pokemon TCG cards from an external API, allowing the user to go inside each
@@ -8,30 +8,31 @@ We will be fetching the data from the Pokémon TCG Developers API
 Take into account the architecture you use, we will be evaluating it 🧐.
 
 
-##Requirements 📋
+## Requirements 📋
 
 Now, we know this may sound like a lot, therefore we will provide you with a
 detailed list of requirements to better divide the challenge. Some are required,
 others are optional and the remainder are considered as going the extra mile.
 Go wild! 😃
 
-###Required (Must have)
+### Required (Must have)
 
  * Home Screen - List of Pokemon cards fetched from the API. Clicking on a
 card will display the Pokemon detail screen to the user.
  * Pokemon Detail Screen - Display the information in a structured way
  * Test Test Test, we recommend Unit Tests and UI Tests
 
-###Optional (Nice to have)
+### Optional (Nice to have)
 
  * Home Screen - Search Pokemon by name
  * Responsive design / implementation
  * Use React / GatsbyJS framework(s)
 
-###Extra Mile (Nice Nice Nice to have)
+### Extra Mile (Nice Nice Nice to have)
 
  * use a Redux to store the data coming from the API
 
+---
 
 ## Running Scripts
 
