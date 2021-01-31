@@ -48,19 +48,31 @@ const ListItem = styled.div`
 `
 
 const DetailedWrap = styled.article`
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   z-index: 10;
 
   display: flex;
+  flex-flow: column nowrap;
   color: black;
   background-color: ${props => props.theme.color.secondBg};
   border-radius: ${props => props.theme.borderRadius};
   border: 1px solid ${props => props.theme.color.secondary};
   width: 500px;
   max-width: 80%;
+
+  transition: 200ms ease-in-out;
+
+  ${props => {
+    if(props.activeDetail === props.id) {
+      return`
+        transform: translate(-50%, -50%) scale(1);
+      `;
+    } return `
+        transform: translate(-50%, -50%) scale(0);
+      `;
+  }}
 `
 
 DetailedWrap.Header = styled.header`
@@ -86,7 +98,6 @@ DetailedWrap.Content = styled.section`
 
 const Overlay = styled.div`
   position: fixed;
-  {/*opacity: 0;*/}
   top: 0;
   left: 0;
   right: 0;
@@ -94,22 +105,24 @@ const Overlay = styled.div`
   background-color: rgba(0,0,0,0.5); 
   pointer-events: none;
 
+  transition: 200ms ease-in-out;
+  
   ${props => {
     if(props.toggle) {
       return`
         opacity: 1;
       `;
-    } else {
-      return `
+    } return `
         opacity: 0;
       `;
-    }
   }}
 `
 
 function App() {
   const [pokedex, setPokedex] = useState([]);
   const [detailedOpened, setDetailedOpened] = useState(false);
+  const [detailedCard, setDetailedCard] = useState();
+  
   const url = 'https://api.pokemontcg.io/v1/cards';
 
   useEffect(() => {
@@ -124,8 +137,13 @@ function App() {
   console.log(pokedex)
 
   function OpenDetailedScreen(card){
+    setDetailedCard(card.id)
     setDetailedOpened(true)
+  }
 
+  function CloseDetailedScreen(){
+    setDetailedCard(null)
+    setDetailedOpened(false)    
   }
 
   return (
@@ -138,21 +156,30 @@ function App() {
           <ListWrapper>
             {pokedex.map((card, index) => {
               return(
-                <ListItem
-                  key={card.id}
-                  onClick={() =>{OpenDetailedScreen(card)}}
-                >
-                  <img src={card.imageUrl} alt={`${card.name} card`} />
-                  <DetailedWrap id={card.id}>
+                <>
+                  <ListItem
+                    key={card.id}
+                    onClick={() =>{OpenDetailedScreen(card)}}
+                  >
+                    <img src={card.imageUrl} alt={`${card.name} card`} />
+                  </ListItem>
+                  <DetailedWrap
+                    id={card.id}
+                    activeDetail={detailedCard}
+                  >
                     <DetailedWrap.Header>
                       <h3>{card.name}</h3>
-                      <button>&times;</button>
+                      <button
+                        onClick={() =>{CloseDetailedScreen()}}
+                      >
+                        &times;
+                      </button>
                     </DetailedWrap.Header>
                     <DetailedWrap.Content>
                       <h6>{card.number}</h6>
                     </DetailedWrap.Content>
                   </DetailedWrap>
-                </ListItem>
+                </>
               )
             })}
           </ListWrapper>
