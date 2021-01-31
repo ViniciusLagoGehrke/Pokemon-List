@@ -26,7 +26,7 @@ card will display the Pokemon detail screen to the user.
 
  -[x] Home Screen - Search Pokemon by name
  -[x] Responsive design / implementation
- -[] Use React / GatsbyJS framework(s)
+ -[/] Use React / GatsbyJS framework(s)
 
 ### Extra Mile (Nice Nice Nice to have)
 

@@ -1,6 +1,8 @@
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
+import SearchBar from '../SearchBar'
 
-const Header = styled.header`
+const HeaderWraper = styled.header`
   display:flex;
   flex-flow: row wrap;
   align-items: center;
@@ -13,5 +15,26 @@ const Header = styled.header`
   background-color: ${props => props.theme.color.primary};
   }
 `;
+
+HeaderWraper.Title = styled.h2`
+
+`
+
+function Header(props) {
+  const input = props.SearchBarInput;
+  const updateInput = props.SearchBarUpdate;
+  
+  return(
+    <HeaderWraper>
+      <HeaderWraper.Title>
+        {props.children}
+      </HeaderWraper.Title>
+      <SearchBar
+        keyword={input}
+        setKeyword={updateInput}
+      />
+    </HeaderWraper>
+  )
+}
 
 export default Header;

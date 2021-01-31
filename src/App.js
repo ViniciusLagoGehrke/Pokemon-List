@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import styled, { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
+
 import Theme from './Theme'
 import Header from './components/Header'
-import SearchBar from './components/SearchBar'
-//import List from './components/List'
+import List from './components/List'
+import ListItem from './components/ListItem'
+import DetailedScreen from './components/DetailedScreens/components/Default'
+import Overlay from './components/Overlay'
 
+import { loadCardAsync } from './redux/cardSlice'
+import { useDispatch } from 'react-redux'
 import axios from 'axios'
 
 const GlobalStyle = createGlobalStyle`
@@ -26,103 +31,6 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const ListWrapper = styled.main`
-  display: grid;
-
-  grid-template-columns: repeat(auto-fit, minmax(220px, 245px));
-  grid-gap: 2rem;
-  justify-content: center;
-  padding: 2rem;
-  background-color: ${props => props.theme.color.mainBg};
-  }
-`;
-
-const ListItem = styled.div`
-  border-radius: ${props => props.theme.borderRadius};
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  }
-
-    img{
-      height: 100%;
-    }
-`
-
-const DetailedWrap = styled.article`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  z-index: 10;
-
-  display: flex;
-  flex-flow: column nowrap;
-  color: black;
-  background-color: ${props => props.theme.color.secondBg};
-  border-radius: ${props => props.theme.borderRadius};
-  border: 1px solid ${props => props.theme.color.secondary};
-  width: 500px;
-  max-width: 80%;
-
-  transition: 200ms ease-in-out;
-
-  ${props => {
-    if(props.activeDetail === props.id) {
-      return`
-        transform: translate(-50%, -50%) scale(1);
-      `;
-    } return `
-        transform: translate(-50%, -50%) scale(0);
-      `;
-  }}
-`
-
-DetailedWrap.Header = styled.header`
-  width: 100%;
-  padding: 10px 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  & button{
-    cursor: pointer;
-    border: none;
-    outline: none;
-    background: none;
-    font-size: 1.25rem;
-    font-weight: bold;
-  }
-`
-
-DetailedWrap.Content = styled.section`
-  padding: 10px 15px;
-`
-
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0,0,0,0.5); 
-  pointer-events: none;
-
-  transition: 200ms ease-in-out;
-  
-  ${props => {
-    if(props.toggle) {
-      return`
-        opacity: 1;
-      `;
-    } return `
-        opacity: 0;
-      `;
-  }}
-`
-
 function App() {
   const [input, setInput] = useState('');
   const [pokedex, setPokedex] = useState([]);
@@ -130,6 +38,9 @@ function App() {
   const [detailedOpened, setDetailedOpened] = useState(false);
   const [detailedCard, setDetailedCard] = useState();
   
+  const dispatch = useDispatch();
+  dispatch(loadCardAsync());
+
   const url = 'https://api.pokemontcg.io/v1/cards';
 
   useEffect(() => {
@@ -150,70 +61,33 @@ function App() {
     setPokedex(filtered);
   }
 
-  function OpenDetailedScreen(card){
-    if(detailedCard == null){
-      setDetailedCard(card.id)
-      setDetailedOpened(true)
-    }
-  }
-
-  function CloseDetailedScreen(){
-    setDetailedCard(null)
-    setDetailedOpened(false)    
-  }
-
   return (
     <>
       <Theme>
         <GlobalStyle />
-          <Header>
-            <h2>Pokémon Trading Cards</h2>
-            <SearchBar
-              keyword={input}
-              setKeyword={updateInput}
-            />
+          <Header
+            SearchBarInput={input}
+            SearchBarUpdate={updateInput}
+          >
+            Pokémon Trading Cards
           </Header>
-          <ListWrapper>
-            {pokedex.map((card, index) => {
+          <List>
+            {pokedex.map((card) => {
+              console.log(card)
               return(
                 <>
                   <ListItem
-                    key={`Card+${card.id}`}
-                    pokemon={card.name}
-                    onClick={() =>{OpenDetailedScreen(card)}}
-                  >
-                    <img 
-                      key={`Img+${card.id}`}
-                      src={card.imageUrl}
-                      alt={`${card.name} card`}
-                    />
-                  </ListItem>
-                  <DetailedWrap
-                    key={`Detailed+${card.id}`}
-                    id={card.id}
-                    activeDetail={detailedCard}
-                  >
-                    <DetailedWrap.Header>
-                      <h2>{card.name}</h2>
-                      <button
-                        onClick={() =>{CloseDetailedScreen()}}
-                      >
-                        &times;
-                      </button>
-                    </DetailedWrap.Header>
-                    <DetailedWrap.Content>
-                      {Object.entries(card).map((key, value, index) => {
-                        return(
-                          <h3 key={card.id+index}>{`${key}`}</h3>
-                        )
-                      })}
-                    </DetailedWrap.Content>
-                  </DetailedWrap>
+                    key={`Card:${card.id}`}
+                    pokeCard={card}
+                  />
+                  <DetailedScreen
+                    key={`Details:${card.id}`}
+                  />
                 </>
               )
             })}
-          </ListWrapper>
-          <Overlay toggle={detailedOpened}></Overlay>
+          </List>
+          <Overlay toggle={detailedOpened} />
       </Theme>
     </>
   );
