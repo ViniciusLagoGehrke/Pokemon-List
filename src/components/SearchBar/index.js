@@ -4,8 +4,13 @@ import styled from "styled-components";
 const SearchWrapper = styled.input`
   width: 20rem;
   background-color: ${props => props.theme.color.mainBg};
-  border: none;
+  border-radius: ${props => props.theme.borderRadius};
+  border: 1px solid ${props => props.theme.color.third};
   padding: 0.5rem;
+
+  &:focus{
+    outline:none;
+  }
 `;
 
 const SearchBar = ({keyword,setKeyword}) => {

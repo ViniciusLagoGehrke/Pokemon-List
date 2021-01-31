@@ -53,7 +53,7 @@ const ListItem = styled.div`
 `
 
 const DetailedWrap = styled.article`
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   z-index: 10;
@@ -167,7 +167,7 @@ function App() {
       <Theme>
         <GlobalStyle />
           <Header>
-            <h1>Pokemon Trading Cards</h1>
+            <h2>Pokémon Trading Cards</h2>
             <SearchBar
               keyword={input}
               setKeyword={updateInput}
@@ -178,13 +178,18 @@ function App() {
               return(
                 <>
                   <ListItem
-                    key={card.id}
+                    key={`Card+${card.id}`}
                     pokemon={card.name}
                     onClick={() =>{OpenDetailedScreen(card)}}
                   >
-                    <img src={card.imageUrl} alt={`${card.name} card`} />
+                    <img 
+                      key={`Img+${card.id}`}
+                      src={card.imageUrl}
+                      alt={`${card.name} card`}
+                    />
                   </ListItem>
                   <DetailedWrap
+                    key={`Detailed+${card.id}`}
                     id={card.id}
                     activeDetail={detailedCard}
                   >
@@ -197,9 +202,9 @@ function App() {
                       </button>
                     </DetailedWrap.Header>
                     <DetailedWrap.Content>
-                      {Object.entries(card).map((key, value) => {
+                      {Object.entries(card).map((key, value, index) => {
                         return(
-                          <h3>{`${key}`}</h3>
+                          <h3 key={card.id+index}>{`${key}`}</h3>
                         )
                       })}
                     </DetailedWrap.Content>
