@@ -36,7 +36,6 @@ function App() {
   const [pokedex, setPokedex] = useState([]);
   const [pokedexDefault, setPokedexDefault] = useState([]);
   const [detailedOpened, setDetailedOpened] = useState(false);
-  const [detailedCard, setDetailedCard] = useState();
   
   const dispatch = useDispatch();
   dispatch(loadCardAsync());

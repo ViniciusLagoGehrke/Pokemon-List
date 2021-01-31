@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useSelector } from 'react.redux'
+import { useSelector } from 'react-redux'
 import {
   selectCardId,
   selectCardName,
   selectCardNumber,
   selectCardSupertype,
   selectCardImageUrl
-} from '../redux/cardSlice'
-import { openDetailedScreen, selectDetailScreenId } from '../redux/detailScreenSlice'
+} from '../../redux/cardSlice'
+import { openDetailedScreen, selectDetailScreenId } from '../../redux/detailScreenSlice'
 
 const StyledItem = styled.div`
   border-radius: ${props => props.theme.borderRadius};
@@ -32,17 +32,13 @@ export default function ListItem({ pokeCard }) {
     supertype = useSelector(selectCardSupertype),
     imageUrl = useSelector(selectCardImageUrl);
 
-  const handleOpenDetail = (e) => {
-    if ()
-  }
-
   return(
     <StyledItem
       key={`Card+${id}`}
       pokemon={name}
       number={number}
       supertype={supertype}
-      onClick={openDetailedScreen()}
+      onClick={openDetailedScreen(selectDetailScreenId)}
     >
       <img 
         src={imageUrl}
