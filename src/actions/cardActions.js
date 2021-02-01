@@ -18,8 +18,8 @@ export const loadCards = (page) => async dispatch => {
     })
   }
 }
-
-export const getCard = (id) => async dispatch {
+ 
+export const getCard = (id) => async dispatch => {
   try {
     dispatch({
       type: "MULTIPLE_CARDS_LOADING"
@@ -29,7 +29,7 @@ export const getCard = (id) => async dispatch {
 
     dispatch({
       type: "MULTIPLE_CARDS_SUCCESS",
-      payload: response.data.cards,
+      payload: response.data.card,
       cardId: id
     })
   } catch (e) {

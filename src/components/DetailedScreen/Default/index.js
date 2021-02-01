@@ -1,6 +1,8 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from "styled-components";
+
+import { getCard } from '../../../actions/cardActions';
 
 const DetailedWrap = styled.article`
   height: 100%;
@@ -33,12 +35,17 @@ DetailedWrap.Content = styled.section`
   padding: 10px 15px;
 `
 
-const DetailedScreen = (props) => {
-  const cardId = props.match.params.card
-  const dispatch = useDispatch()
-  const cardState = useSelector(state => state.card)
+export default function DetailedScreen (props) {
 
-  console.log('cardId :', cardId)
+  const cardId = props.match.params.id
+  const dispatch = useDispatch()
+  const cardState = useSelector(state => state.Card)
+
+  useEffect(() => {
+    dispatch(getCard(cardId))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
   return (
     <DetailedWrap>
       <DetailedWrap.Header>
@@ -49,5 +56,3 @@ const DetailedScreen = (props) => {
     </DetailedWrap>
   );
 }
-
-export default DetailedScreen;

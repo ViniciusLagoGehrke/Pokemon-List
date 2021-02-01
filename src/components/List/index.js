@@ -4,7 +4,7 @@ import styled from "styled-components";
 import _ from 'lodash';
 import { Link } from 'react-router-dom'
 
-import { loadCards } from '../../services/api'
+import { loadCards } from '../../actions/cardActions'
 
 import ListItem from '../ListItem'
 
@@ -19,15 +19,16 @@ const ListWrapper = styled.main`
   }
 `;
 
-export default function List(props) {  
+export default function List (props) {  
   const dispatch = useDispatch();
   const cardList = useSelector(state => state.CardList.data)
   
   useEffect(() => {
-    FetchData(1)
+    fetchData(1)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
-  const FetchData = (page = 1) => {
+  const fetchData = (page = 1) => {
     dispatch(loadCards(page))
   }
 

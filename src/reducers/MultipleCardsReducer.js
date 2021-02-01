@@ -1,6 +1,6 @@
 const DefaultState = {
   loading: false,
-  data: {},
+  data: [],
   errorMsg: ""
 };
 
@@ -19,7 +19,7 @@ const MultipleCardsReducer = (state = DefaultState, action) => {
         errorMsg: "",
         data: {
           ...state.data,
-          [action.cards]: action.payload
+          [action.cardId]: action.payload
         }
       }
     case "MULTIPLE_CARDS_FAIL ":
