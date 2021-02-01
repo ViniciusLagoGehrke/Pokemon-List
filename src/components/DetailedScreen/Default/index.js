@@ -1,32 +1,15 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from "styled-components";
 
 const DetailedWrap = styled.article`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  z-index: 10;
+  height: 100%;
+  width: 100%;
 
   display: flex;
   flex-flow: column nowrap;
   color: black;
-  background-color: ${props => props.theme.color.secondBg};
-  border-radius: ${props => props.theme.borderRadius};
-  border: 1px solid ${props => props.theme.color.secondary};
-  width: 500px;
-  max-width: 80%;
-
-  transition: 200ms ease-in-out;
-
-  ${props => {
-    if(props.activeDetail === props.id) {
-      return`
-        transform: translate(-50%, -50%) scale(1);
-      `;
-    } return `
-        transform: translate(-50%, -50%) scale(0);
-      `;
-  }}
+  background-color: ${props => props.theme.color.mainBg};
 `
 
 DetailedWrap.Header = styled.header`
@@ -50,10 +33,16 @@ DetailedWrap.Content = styled.section`
   padding: 10px 15px;
 `
 
-const DetailedScreen = ({keyword,setKeyword}) => {
+const DetailedScreen = (props) => {
+  const cardId = props.match.params.card
+  const dispatch = useDispatch()
+  const cardState = useSelector(state => state.card)
+
+  console.log('cardId :', cardId)
   return (
     <DetailedWrap>
       <DetailedWrap.Header>
+        Carta
       </DetailedWrap.Header>
       <DetailedWrap.Content>
       </DetailedWrap.Content>
