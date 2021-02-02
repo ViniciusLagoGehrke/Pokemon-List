@@ -1,6 +1,6 @@
 import React from 'react'
 import { createGlobalStyle } from 'styled-components'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Link, Switch, Route, Redirect } from 'react-router-dom'
 import Theme from './Theme'
 import Header from './components/Header'
 import List from './components/List'
@@ -30,7 +30,9 @@ function App() {
     <Theme>
       <GlobalStyle />
         <Header>
-          Pokémon Trading Cards
+          <Link to={`/`} >
+            Pokémon Trading Cards
+          </Link>
         </Header>
         <Switch>
           <Route path={"/"} exact component={List} />
