@@ -42,25 +42,32 @@ const ListWrapper = styled.section`
 
 
 export default function List (props) {
-  const [search, setSearch] = useState('');
-  // const [pokedex, setPokedex] = useState([]);
-  // const [pokedexDefault, setPokedexDefault] = useState([]);
+  const [input, setInput] = useState('');
+  const [pokedex, setPokedex] = useState([]);
   
-  // const updateInput = (input) => {
-  //   const filtered = pokedexDefault.filter(card => {
-  //     return card.name.toLowerCase().includes(input.toLowerCase())
-  //   })
-  //   setInput(input);
-  //   setPokedex(filtered);
-  // }
+  const updateInput = (input) => {
+    const filtered = cardList.filter(card => {
+      return card.name.toLowerCase().includes(input.toLowerCase())
+    })
+    setInput(input);
+    setPokedex(filtered);
+  }
 
   const dispatch = useDispatch();
   const cardList = useSelector(state => state.CardList.data)
   const response = useSelector(state => state.CardList)
+  
+  //DEBUGGING!!!!!
+  console.log('response: ')
   console.log(response)
+  console.log('pokedex: ')
+  console.log(pokedex)
+  console.log('cardList: ')
+  console.log(cardList)
 
   useEffect(() => {
     fetchData(1)
+    setPokedex(cardList)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
@@ -100,8 +107,8 @@ export default function List (props) {
   return(
     <Main>
       <SearchBar
-        onChange={(e) => setSearch(e.target.value)}
-        onClick={() => props.history.push(`/cards?name=${search}`)}
+        keyword={input}
+        setKeyword={updateInput}
       />
       {!_.isEmpty(cardList) && (
           <ReactPaginate
