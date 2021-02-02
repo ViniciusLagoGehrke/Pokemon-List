@@ -19,6 +19,7 @@ const Main = styled.main`
   background-color: ${props => props.theme.color.mainBg};
 
   & .pagination{
+    cursor: pointer;
     display: flex;
     width: 90%;
     margin: auto;
