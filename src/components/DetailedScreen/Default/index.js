@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from "styled-components";
-
+import _ from 'lodash';
 import { getCard } from '../../../actions/cardActions';
 
 const DetailedWrap = styled.article`
@@ -46,12 +46,51 @@ export default function DetailedScreen (props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
+  const ShowData = () => {
+    if(!_.isEmpty(cardState.data[cardId])) {
+      const cardData = cardState.data[cardId]
+      return (
+        <>
+          <img src={cardData.imageUrl} />
+          <h1>{cardData.id}</h1>
+          <h1>{cardData.name}</h1>
+          <h2>{cardData.supertype} - {cardData.subtype}</h2>
+          <h3>HP {cardData.hp}</h3>
+          {cardData.types.map(i => {
+            return <p>{i}</p>
+          })}
+          <h3>Attacks</h3>
+          {cardData.attacks.map(i => {
+            return (
+              <>
+                <p>{i.name} | {i.cost}</p>
+                <p>{i.text}</p>
+              </>
+            )
+          })}
+          
+        </>
+      )
+    }
+
+    if(cardState.loading) {
+      return <p>Loading...</p>
+    }
+
+    if (cardState.errorMsg !== "") {
+      return <p>{cardState.errorMsg}</p>
+    }
+
+    return <p>error getting card</p>
+  }
+
   return (
     <DetailedWrap>
       <DetailedWrap.Header>
         Carta
       </DetailedWrap.Header>
       <DetailedWrap.Content>
+       {ShowData()}
       </DetailedWrap.Content>
     </DetailedWrap>
   );

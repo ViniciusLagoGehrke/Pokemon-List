@@ -26,35 +26,18 @@ const GlobalStyle = createGlobalStyle`
 `
 
 function App() {
-  // const [input, setInput] = useState('');
-  // const [pokedex, setPokedex] = useState([]);
-  // const [pokedexDefault, setPokedexDefault] = useState([]);
-
-  // const updateInput = (input) => {
-  //   const filtered = pokedexDefault.filter(card => {
-  //     return card.name.toLowerCase().includes(input.toLowerCase())
-  //   })
-  //   setInput(input);
-  //   setPokedex(filtered);
-  // }
-
   return (
-    <>
-      <Theme>
-        <GlobalStyle />
-          <Header
-            // SearchBarInput={input}
-            // SearchBarUpdate={updateInput}
-          >
-            Pokémon Trading Cards
-          </Header>
-          <Switch>
-            <Route path={"/"} exact component={List} />
-            <Route path={"/cards/:id"} exact component={DetailedScreen} />
-            <Redirect to={"/"} />
-          </Switch>
-      </Theme>
-    </>
+    <Theme>
+      <GlobalStyle />
+        <Header>
+          Pokémon Trading Cards
+        </Header>
+        <Switch>
+          <Route path={"/"} exact component={List} />
+          <Route path={"/cards/:id"} exact component={DetailedScreen} />
+          <Redirect to={"/"} />
+        </Switch>
+    </Theme>
   );
 }
 

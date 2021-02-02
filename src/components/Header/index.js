@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import SearchBar from '../SearchBar'
 
 const HeaderWraper = styled.header`
   display:flex;
@@ -16,23 +15,10 @@ const HeaderWraper = styled.header`
   }
 `;
 
-HeaderWraper.Title = styled.h2`
-
-`
-
 function Header(props) {
-  const input = props.SearchBarInput;
-  const updateInput = props.SearchBarUpdate;
-  
   return(
     <HeaderWraper>
-      <HeaderWraper.Title>
         {props.children}
-      </HeaderWraper.Title>
-      <SearchBar
-        keyword={input}
-        setKeyword={updateInput}
-      />
     </HeaderWraper>
   )
 }
