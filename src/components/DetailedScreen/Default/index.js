@@ -7,15 +7,16 @@ import { getCard } from '../../../actions/cardActions';
 const DetailedWrap = styled.article`
   padding: 2rem;
   width: 100vw;
-  min-height: 100vh;
 
   display: flex;
   flex-direction: column;
   align-items: stretch;
 
   @media(min-width: 768px){
+    padding: 5rem;
     display:grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: minmax(auto, 1fr) 2fr;
+    grid-gap: 1rem;
   }
 
   color: black;
@@ -23,9 +24,11 @@ const DetailedWrap = styled.article`
 `
 
 DetailedWrap.Card = styled.img`
+  align-self: center;
   flex: 1 1 auto;
-  width: 100%;
+  max-width: 300px;
   height: auto;
+  grid-row: 1/4;
 
   /*border: 1px blue solid;  debuggin */
 `
@@ -33,13 +36,14 @@ DetailedWrap.Card = styled.img`
 DetailedWrap.Header = styled.header`
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-items: center;
   padding: 1rem;
   border-bottom: 1px ${props => props.theme.color.mainBg} solid;
 
   & h2{
     font-weight: 400;
-    margin-top: 0;
+    margin: 0;
   }
 
   & h3{
@@ -58,6 +62,7 @@ DetailedWrap.Content = styled.section`
   flex-direction: column;
   align-items: stretch;
   padding: 0 1rem 1rem;
+  place-self: center stretch;
 
   & div{
   border-bottom: 1px ${props => props.theme.color.mainBg} solid;
@@ -79,9 +84,13 @@ DetailedWrap.Footer = styled.footer`
   align-items: stretch;
   padding: 0 1rem 1rem;
 
+  @media(min-width: 768px){
+  flex-flow: row nowrap;
+  }
+
   & div{
   border-bottom: 1px ${props => props.theme.color.mainBg} solid;
-  padding: 1rem 0;
+  padding: 1rem;
   }
   
   & p{
