@@ -17,38 +17,30 @@ Go wild! 😃
 
 ### Required (Must have)
 
- [x] Home Screen - List of Pokemon cards fetched from the API. Clicking on a
+- [x] Home Screen - List of Pokemon cards fetched from the API. Clicking on a
 card will display the Pokemon detail screen to the user.
-
- [] Pokemon Detail Screen - Display the information in a structured way
-
- [] Test Test Test, we recommend Unit Tests and UI Tests
+- [] Pokemon Detail Screen - Display the information in a structured way
+- [] Test Test Test, we recommend Unit Tests and UI Tests
 
 ### Optional (Nice to have)
 
- -[x] Home Screen - Search Pokemon by name
-
- -[x] Responsive design / implementation
-
- -[/] Use React / GatsbyJS framework(s)
+- [x] Home Screen - Search Pokemon by name
+- [x] Responsive design / implementation
+- [] Use React / GatsbyJS framework(s)
 
 ### Extra Mile (Nice Nice Nice to have)
 
- [x] use a Redux to store the data coming from the API
+ - [x] use a Redux to store the data coming from the API
 
 ---
 
 ## To Do
 
-  - Change Title and logo
   - Finish DetailedScreen (probably 3 versions)
   - Check for key prop on children in a list
   - Write tests
   - Implement pagination
   - Search for all cards (not only displayed)
-  - Turn into components
-  - Check GatsbyJS
-  - Check Redux
 
 ---
 

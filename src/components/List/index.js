@@ -3,16 +3,35 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from "styled-components";
 import _ from 'lodash';
 import { Link } from 'react-router-dom'
+import ReactPaginate from 'react-paginate'
 
 import { loadCards } from '../../actions/cardActions'
 
 import ListItem from '../ListItem'
 import SearchBar from '../SearchBar';
 
-const ListWrapper = styled.main`
+const Main = styled.main`
+  display: flex;
+  flex-flow: column wrap;
+  padding: 2rem 0;
+  justify-content: center;
+  align-items: center;
+  background-color: ${props => props.theme.color.mainBg};
+
+  & .pagination{
+    display: flex;
+    width: 90%;
+    margin: auto;
+    list-style: none;
+    justify-content: space-between;
+    padding: 0;
+  }
+`;
+
+const ListWrapper = styled.section`
   display: grid;
+  width: 100%;
   grid-template-columns: repeat(auto-fit, minmax(220px, 245px));
-  grid-template-rows: [row1-start] 22rem [row1-end] repeat(auto-fit, minmax(220px, 346px));
   grid-gap: 2rem;
   justify-content: center;
 
@@ -20,6 +39,7 @@ const ListWrapper = styled.main`
   background-color: ${props => props.theme.color.mainBg};
   }
 `;
+
 
 export default function List (props) {
   const [search, setSearch] = useState('');
@@ -36,6 +56,8 @@ export default function List (props) {
 
   const dispatch = useDispatch();
   const cardList = useSelector(state => state.CardList.data)
+  const response = useSelector(state => state.CardList)
+  console.log(response)
 
   useEffect(() => {
     fetchData(1)
@@ -47,6 +69,10 @@ export default function List (props) {
   }
 
   const ShowData = () => {
+    if(cardList.loading) {
+      return <p>Loading...</p>
+    }
+
     if(!_.isEmpty(cardList)) {
       return (
         <>
@@ -64,10 +90,6 @@ export default function List (props) {
       )
     }
 
-    if(cardList.loading) {
-      return <p>Loading...</p>
-    }
-
     if(cardList.errorMsg !== "") {
       return <p>{cardList.errorMsg}</p>
     }
@@ -76,12 +98,23 @@ export default function List (props) {
   }
   
   return(
-    <ListWrapper>
+    <Main>
       <SearchBar
         onChange={(e) => setSearch(e.target.value)}
         onClick={() => props.history.push(`/cards?name=${search}`)}
       />
-      {ShowData()}
-    </ListWrapper>
+      {!_.isEmpty(cardList) && (
+          <ReactPaginate
+            pageCount={50}
+            pageRangeDisplayed={2}
+            marginPagesDisplayed={1}
+            onPageChange={(data) => fetchData(data.selected + 1)}
+            containerClassName={'pagination'}
+          />
+      )}
+      <ListWrapper>
+        {ShowData()}
+      </ListWrapper>
+    </Main>
   );
 };

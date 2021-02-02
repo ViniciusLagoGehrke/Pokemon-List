@@ -2,25 +2,35 @@ import React from 'react';
 import styled from "styled-components";
 
 const SearchWrapper = styled.div`
-  grid-row-start: row1-start;
-  grid-row-end: row1-end;
-  width: 20rem;
-  background-color: ${props => props.theme.color.mainBg};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 18rem;
+  margin: 1rem;
   border-radius: ${props => props.theme.borderRadius};
   border: 1px solid ${props => props.theme.color.third};
   
   & input{
-    border-radius: ${props => props.theme.borderRadius};
+    flex: 2 1 auto;
+    border-radius: ${props => props.theme.borderRadius} 0 0 ${props => props.theme.borderRadius};
     border: none;
+    outline: none;
     padding: 0.5rem;
-
+    
     &:focus{
       outline:none;
     }
   }
 
   & button{
-    /* position: absolute; */
+    flex: 1 1 auto;
+    cursor: pointer;
+    height: 32px;
+    text-align: center;
+    font-weight: bold;
+    border: none;
+    outline: none;
+    border-radius: 0 10px 10px 0;
   }
 `;
 
@@ -34,7 +44,10 @@ const SearchBar = (props) => {
         onChange={props.onChange}
       />
       <button
-        onClick={props.onClick}>Search</button>
+        onClick={props.onClick}
+      >
+        Search
+      </button>
     </SearchWrapper>
   );
 }
