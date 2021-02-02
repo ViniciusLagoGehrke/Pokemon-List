@@ -11,7 +11,13 @@ const HeaderWraper = styled.header`
   min-height: 5rem;
   padding: 1rem;
 
-  color: ${props => props.theme.color.contrastText};
+  & .link{
+    color: ${props => props.theme.color.contrastText};
+    font-weight: 800;
+    font-size: 2.5rem;
+    text-decoration: none;
+    padding: 2rem;
+  }
   background-color: ${props => props.theme.color.primary};
   }
 `;
@@ -19,7 +25,9 @@ const HeaderWraper = styled.header`
 function Header(props) {
   return(
     <HeaderWraper>
+      <Link className="link" to={`/`} >
         {props.children}
+      </Link>
     </HeaderWraper>
   )
 }
